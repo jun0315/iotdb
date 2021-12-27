@@ -1517,11 +1517,7 @@ public class PlanExecutor implements IPlanExecutor {
   @Override
   public void insertTablet(InsertMultiTabletPlan insertMultiTabletPlan)
       throws QueryProcessException {
-    if (insertMultiTabletPlan.isEnableMultiThreading()) {
       insertTabletParallel(insertMultiTabletPlan);
-    } else {
-      insertTabletSerial(insertMultiTabletPlan);
-    }
   }
 
   private void insertTabletSerial(InsertMultiTabletPlan insertMultiTabletPlan)
@@ -1592,19 +1588,24 @@ public class PlanExecutor implements IPlanExecutor {
   }
 
   private void updateInsertTabletsPool(int sgSize) {
-    int updateCoreSize = Math.min(sgSize, Runtime.getRuntime().availableProcessors() / 2);
-    if (insertionPool == null || insertionPool.isTerminated()) {
-      insertionPool =
-          (ThreadPoolExecutor)
-              IoTDBThreadPoolFactory.newFixedThreadPool(
-                  updateCoreSize, ThreadName.INSERTION_SERVICE.getName());
-    } else if (insertionPool.getCorePoolSize() > updateCoreSize) {
-      insertionPool.setCorePoolSize(updateCoreSize);
-      insertionPool.setMaximumPoolSize(updateCoreSize);
-    } else if (insertionPool.getCorePoolSize() < updateCoreSize) {
-      insertionPool.setMaximumPoolSize(updateCoreSize);
-      insertionPool.setCorePoolSize(updateCoreSize);
-    }
+
+    insertionPool =
+            (ThreadPoolExecutor)
+                    IoTDBThreadPoolFactory.newFixedThreadPool(
+                            10, ThreadName.INSERTION_SERVICE.getName());
+//    int updateCoreSize = Math.min(sgSize, Runtime.getRuntime().availableProcessors() / 2);
+//    if (insertionPool == null || insertionPool.isTerminated()) {
+//      insertionPool =
+//          (ThreadPoolExecutor)
+//              IoTDBThreadPoolFactory.newFixedThreadPool(
+//                  updateCoreSize, ThreadName.INSERTION_SERVICE.getName());
+//    } else if (insertionPool.getCorePoolSize() > updateCoreSize) {
+//      insertionPool.setCorePoolSize(updateCoreSize);
+//      insertionPool.setMaximumPoolSize(updateCoreSize);
+//    } else if (insertionPool.getCorePoolSize() < updateCoreSize) {
+//      insertionPool.setMaximumPoolSize(updateCoreSize);
+//      insertionPool.setCorePoolSize(updateCoreSize);
+//    }
   }
 
   @Override
