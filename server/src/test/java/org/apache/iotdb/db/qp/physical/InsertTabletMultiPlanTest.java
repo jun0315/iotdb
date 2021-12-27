@@ -47,6 +47,7 @@ public class InsertTabletMultiPlanTest extends InsertTabletPlanTest {
 
   @Test
   public void testInsertMultiTabletPlanSpeed() throws QueryProcessException, MetadataException {
+    //run this test case, can throw write_process_npe
     long[] times =
             new long[10000];
     for (int i =0 ; i <times.length;i++){

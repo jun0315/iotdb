@@ -1592,7 +1592,7 @@ public class PlanExecutor implements IPlanExecutor {
     insertionPool =
             (ThreadPoolExecutor)
                     IoTDBThreadPoolFactory.newFixedThreadPool(
-                            10, ThreadName.INSERTION_SERVICE.getName());
+                            12, ThreadName.INSERTION_SERVICE.getName());
 //    int updateCoreSize = Math.min(sgSize, Runtime.getRuntime().availableProcessors() / 2);
 //    if (insertionPool == null || insertionPool.isTerminated()) {
 //      insertionPool =
