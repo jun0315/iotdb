@@ -77,6 +77,11 @@ public class TagSchemaDescriptor {
           Integer.parseInt(
               properties.getProperty(
                   "num_of_immutable_memTable", String.valueOf(conf.getNumOfImmutableMemTable()))));
+      conf.setOutBufferSize(
+          Integer.parseInt(
+              properties.getProperty("out_buffer_size", String.valueOf(conf.getOutBufferSize()))));
+      conf.setDegree(
+          Integer.parseInt(properties.getProperty("degree", String.valueOf(conf.getDegree()))));
     } catch (FileNotFoundException e) {
       logger.warn("Fail to find tag schema region config file {}", tagSchemaConfigPath);
     } catch (IOException e) {
